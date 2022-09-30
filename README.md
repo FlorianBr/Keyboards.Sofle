@@ -1,4 +1,4 @@
-# Sofle Splut ErgoMech
+# Sofle Split ErgoMech
 
 Currently I own two Sofles, a RGB and a Choc. I use the same layout and features on both of them, at least if possible. The Choc has for example no downlight LEDs and no indicators
 Besides that I've build both with 2 OLEDs and 2 rotary encoders
