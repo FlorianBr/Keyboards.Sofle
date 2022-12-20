@@ -6,9 +6,14 @@ Both have 3D printed tilted cases
 
 - Extra Layer for Umlauts, F1 to F12 and rarely used function keys
 - Layer of cursor and movement keys
-- Caps word on LAlt + LShift
 - Left OLED: Display of current layer and activated modifiers
 - Right OLED: WPM counter and wpm dependend Neko animation
+
+TODOs:
+- Setup Matrix LED 
+- Space Cadet maybe?
+- Re-enable CapsWord
+- Update Sofle Choc variant
 
 ![Sofle](soflekeyboard.jpg)
 
@@ -18,10 +23,14 @@ Both have 3D printed tilted cases
 
  - Keys: Gazzew U4 RGB
  - Keycaps: Pudding Black
+ 
+ Thanks to some messing around my left side has a MCU with dfu bootloader, my right side with caterina
 
 ![SofleRGB](sofle_rgb.jpg)
 
 ## Sofle Choc
+
+Note: Currently outdated and needs some rework for current QMK version!
 
 - Keys: Kailh red choc
 - Keycaps: Pudding Black

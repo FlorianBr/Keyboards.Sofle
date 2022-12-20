@@ -16,15 +16,14 @@
  * 
  *************************************************
  *
- * Keymap for the Sofle RGB, bBased loosey on the design made byDane Evans
+ * Keymap for the Sofle RGB, based on the design made by Dane Evans
  * 
  * Main layout is mostly standard QWERTY
  * 
  * Features:
- * - German Umlauts using the Linux COMPOSE mechanism on second layer (plus F1..F12, PrintScreen)
+ * - German Umlauts using the Linux COMPOSE mechanism on second layer (plus F1..F12, PrintScreen and some other stuff)
  * - Holding Tab switches to LED control layer
  * - Alt layer for cursor keys
- * - Enabled CAPS WORD Feature, enabled by alt+shift (see https://getreuer.info/posts/keyboards/caps-word/index.html)
  * - Droplights and indicator to show current layer
  * - Highlighting of alt functions on non-default layers
  * - separated master/slave sides to save flash
@@ -33,11 +32,9 @@
  * TODO:
  * - ARASAKA-Logo on wakeup for x secs
  * - WPM Graph on right OLED
- * - Display state of caps word on right OLED
  */
 
 #include <stdio.h>
-#include "features/caps_word.h"
 #include "config.h"
 
 #include QMK_KEYBOARD_H
@@ -61,6 +58,10 @@ enum custom_keycodes {
     UML_A = SAFE_RANGE,
     UML_U,
     UML_O,
+    BRK_L1,
+    BRK_R1,
+    BRK_L2,
+    BRK_R2,
     ESIGN
 };
 
@@ -87,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-                     KC_LCTRL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_LBRC, KC_RBRC,  KC_EQL, KC_MINS  
+                      KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS  
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
 ),
   [_ALT] = LAYOUT(
@@ -96,9 +97,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     _______, _______, _______,   ESIGN, _______, _______,                       _______,   UML_U, _______,   UML_O, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______,   UML_A, _______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______,
+    _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______ ,_______, _______,  _______,    _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______ ,_______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
                       _______, _______, _______, _______,  _______,    _______, KC_PSCR, _______, _______, _______
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -136,22 +137,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /**************************************************** KEYCODE PROCESSING */
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_caps_word(keycode, record)) { return false; }      // For caps_word
-
-  // Manual Caps Word activator
-  if (((get_mods() & MOD_BIT(KC_LALT)) == MOD_BIT(KC_LALT)) 
-    && ((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT))) {
-    caps_word_set(true);  // Activate Caps Word.
-  }
-
   switch (keycode) {
     case UML_A:
         if (record->event.pressed) {
             tap_code(KC_CAPS);
             tap_code(KC_A);
-            register_code(KC_RSHIFT);
+            register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
-            unregister_code(KC_RSHIFT);
+            unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
@@ -159,9 +152,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             tap_code(KC_CAPS);
             tap_code(KC_U);
-            register_code(KC_RSHIFT);
+            register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
-            unregister_code(KC_RSHIFT);
+            unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
@@ -169,9 +162,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             tap_code(KC_CAPS);
             tap_code(KC_O);
-            register_code(KC_RSHIFT);
+            register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
-            unregister_code(KC_RSHIFT);
+            unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
@@ -183,9 +176,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-    }
-
-  return true;
+    case BRK_L1:  // Left Bracket 1: [
+        if (record->event.pressed) {
+            tap_code(KC_LEFT_BRACKET);
+        } else {
+        }
+        break;
+    case BRK_R1:  // Right Bracket 1: [
+        if (record->event.pressed) {
+            tap_code(KC_RIGHT_BRACKET);
+        } else {
+        }
+        break;
+    case BRK_L2:  // Left Bracket 2: {
+        if (record->event.pressed) {
+            register_code(KC_RIGHT_SHIFT);
+            tap_code(KC_LEFT_BRACKET);
+            unregister_code(KC_RIGHT_SHIFT);
+        } else {
+        }
+        break;
+    case BRK_R2:  // Right Bracket 2: }
+        if (record->event.pressed) {
+            register_code(KC_RIGHT_SHIFT);
+            tap_code(KC_RIGHT_BRACKET);
+            unregister_code(KC_RIGHT_SHIFT);
+        } else {
+        }
+        break;
+    } // end switch
+    return true;
 };
 
 
@@ -267,7 +287,7 @@ static void print_left(void) {
     if (get_mods() & MOD_MASK_CTRL) {   oled_write_char('C', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_GUI) {    oled_write_char('G', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_ALT) {    oled_write_char('A', true);    } else { oled_write_char(' ', false); }
-    if (caps_word_get()) {              oled_write_char('W', true);    } else { oled_write_char(' ', false); } 
+    // if (caps_word_get()) {              oled_write_char('W', true);    } else { oled_write_char(' ', false); } 
   } // is_oled_on
 } // print_left()
 
@@ -404,7 +424,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 // The LED numbers:
 //  11, 12, 21, 22, 31, 32,                 36+32, 36+31, 36+22, 36+21, 36+12, 36+11,
 //  10, 13, 20, 23, 30, 33,                 36+33, 36+30, 36+23, 36+20, 36+13, 36+10,
-//  9,  14, 19, 24, 29, 34,                 36+34, 36+28, 36+25, 36+18, 36+15, 36+8,
+//  9,  14, 19, 24, 29, 34,                 36+34, 36+29, 36+24, 36+19, 36+14, 36+9,
 //  8,  15, 18, 25, 28, 35, --,     --,     36+35, 36+28, 36+25, 36+18, 36+15, 36+8,
 //          7,  16, 17, 26, 27,     36+27,  36+26, 36+17, 36+16, 36+7
 
@@ -433,6 +453,8 @@ const rgblight_segment_t PROGMEM status_alt[] = RGBLIGHT_LAYER_SEGMENTS(
   {36+31, 2, HSV_RED },  // F6 F7
   {36+20, 1, HSV_RED },  // O
   {36+30, 1, HSV_RED },  // U
+  {36+28, 2, HSV_RED },  // J M
+  {36+34, 2, HSV_RED },  // H N
   {36+26, 1, HSV_RED }   // PrtScr
 );  
 
