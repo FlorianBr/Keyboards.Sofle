@@ -7,13 +7,14 @@
  * are different! Therefore we need to specify what
  * side we want to compile here
  */
-// #define IS_LEFT                                     // We want to build the LEFT side
-#define IS_RIGHT                                    // We want to build the RIGHT side
+#define IS_LEFT                                     // We want to build the LEFT side
+// #define IS_RIGHT                                    // We want to build the RIGHT side
 #define MASTER_LEFT                                 // Left is the master
 
 /****** Split Configuration */
 #define SPLIT_WPM_ENABLE                            // Sync WPM state between sides (for NEKO)
 #define SOFT_SERIAL_PIN D2                          // Serial connection
+#define SPLIT_LAYER_STATE_ENABLE                    // For layer-dependend key LEDs 
 
 /****** Features: Tapping */
 #ifdef TAPPING_TERM
@@ -89,8 +90,8 @@
 #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE  
 #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS      
 #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS      
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS 
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS      
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS 
 // #define ENABLE_RGB_MATRIX_SPLASH        
 // #define ENABLE_RGB_MATRIX_MULTISPLASH        
 #define ENABLE_RGB_MATRIX_SOLID_SPLASH       
