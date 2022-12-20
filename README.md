@@ -4,15 +4,22 @@ Currently I own two Sofles, a RGB and a Choc. I use the same layout and features
 Besides that I've build both with 2 OLEDs and 2 rotary encoders
 Both have 3D printed tilted cases
 
-- Extra Layer for Umlauts, F1 to F12 and rarely used function keys
-- Layer of cursor and movement keys
-- Left OLED: Display of current layer and activated modifiers
-- Right OLED: WPM counter and wpm dependend Neko animation
+Features:
+- Alternative Layer with:
+  - Umlauts, created with Linux Compose mechanism
+  - F1 to F12, brackets and print screen
+- Holding TAB switches to RGB Matrix configuration
+- Cursor layer with PageUp/Down, Home, End
+- Indicator LEDs to show current layer
+- On on-standard layer: Highlight key with alt function
+- Right OLED: Current layer and modifiers
+- Left OLED: Neko-Cat animation depending on WPS
+- Caps-Word on left+right shift
 
 TODOs:
-- Setup Matrix LED 
-- Space Cadet maybe?
-- Re-enable CapsWord
+- Separated control of downlights
+- ARASAKA-Logo on OLED on wake-up
+- WPM graph
 - Update Sofle Choc variant
 
 ![Sofle](soflekeyboard.jpg)
@@ -24,7 +31,9 @@ TODOs:
  - Keys: Gazzew U4 RGB
  - Keycaps: Pudding Black
  
- Thanks to some messing around my left side has a MCU with dfu bootloader, my right side with caterina
+Thanks to some messing around my left side has a MCU with dfu bootloader, my right side with caterina
+make sofle_rgb:default:avrdude-split-right
+make sofle_rgb:default:dfu-split-left
 
 ![SofleRGB](sofle_rgb.jpg)
 
@@ -36,3 +45,4 @@ Note: Currently outdated and needs some rework for current QMK version!
 - Keycaps: Pudding Black
 
 ![SofleChoc](sofle_choc.jpg)
+

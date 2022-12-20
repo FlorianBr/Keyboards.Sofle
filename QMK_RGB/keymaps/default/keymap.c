@@ -15,23 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  *************************************************
- *
  * Keymap for the Sofle RGB, based on the design made by Dane Evans
- * 
- * Main layout is mostly standard QWERTY
- * 
- * Features:
- * - German Umlauts using the Linux COMPOSE mechanism on second layer (plus F1..F12, PrintScreen and some other stuff)
- * - Holding Tab switches to LED control layer
- * - Alt layer for cursor keys
- * - Droplights and indicator to show current layer
- * - Highlighting of alt functions on non-default layers
- * - separated master/slave sides to save flash
- * - NEKO Pet on right OLED
- * 
- * TODO:
- * - ARASAKA-Logo on wakeup for x secs
- * - WPM Graph on right OLED
  */
 
 #include <stdio.h>
@@ -47,9 +31,9 @@
 
 enum layers {
     _STD = 0,
-    _ALT,
-    _SET,
-    _CRS,
+    _ALT = 1,
+    _SET = 2,
+    _CRS = 3,
 };
 
 /**************************************************** CUSTOM KEYCODES */
@@ -82,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     TD(TD_GRV), KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,TT(_CRS),
+    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
    MO(_ALT),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -135,7 +119,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 /**************************************************** KEYCODE PROCESSING */
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case UML_A:
@@ -208,7 +191,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-
 /**************************************************** THE ENCODER */
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -230,11 +212,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif // ENCODER_ENABLE
 
 /**************************************************** OLEDs */
+#ifdef OLED_ENABLE
 static uint32_t sleep_timer;
-
-// #ifdef OLED_ENABLE
-#if 1
-#ifdef ISMASTER
+#ifdef IS_LEFT
 static void print_left(void) {
 
   // OLED Sleep Mode
@@ -270,11 +250,10 @@ static void print_left(void) {
       oled_write_char('M', false);
       oled_write_char('=', false);
 
-      Tens = rgblight_get_mode()/10;
-      Ones = rgblight_get_mode() - 10*Tens;
+      Tens = rgb_matrix_get_mode()/10;
+      Ones = rgb_matrix_get_mode() - 10*Tens;
       if (0==Tens) oled_write_char('0', false); else oled_write_char('0'+Tens, false);
       if (0==Ones) oled_write_char('0', false); else oled_write_char('0'+Ones, false);
-
     }
     // CRS Functions Layer: Layer name
     else if (get_highest_layer(layer_state) == _CRS) {
@@ -287,11 +266,11 @@ static void print_left(void) {
     if (get_mods() & MOD_MASK_CTRL) {   oled_write_char('C', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_GUI) {    oled_write_char('G', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_ALT) {    oled_write_char('A', true);    } else { oled_write_char(' ', false); }
-    // if (caps_word_get()) {              oled_write_char('W', true);    } else { oled_write_char(' ', false); } 
+    if (is_caps_word_on()) {            oled_write_char('W', true);    } else { oled_write_char(' ', false); } 
   } // is_oled_on
 } // print_left()
 
-#else
+#else // IS_LEFT
 
 #ifdef WPM_ENABLE
 static uint32_t anim_timer = 0;       // animation timer
@@ -391,13 +370,12 @@ static void print_right(void) {
     }
     render_neko(0, 3);
 #endif  // WPM_ENABLE
-
   } // is_oled_on
 } // print_right()
 #endif
 
 bool oled_task_user(void) {
-#ifdef ISMASTER
+#ifdef IS_LEFT
   print_left();
 #else
   print_right();
@@ -406,7 +384,7 @@ bool oled_task_user(void) {
 }
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-#ifdef ISMASTER
+#ifdef IS_LEFT
   return OLED_ROTATION_270;
 #endif
   // Orientation of slave is handled in the display function
@@ -415,76 +393,41 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 #endif // OLED_ENABLE
 
 
-/**************************************************** RGB Light Layers */
-#ifdef RGBLIGHT_ENABLE
-// LED Starts: Master=0, Slave=36 
-// Offsets: Indicator = 0
-//          Downlight = 1 (6 LEDs)
+// /**************************************************** RGB Light Layers */
+#ifdef RGB_MATRIX_ENABLE
+// Downlight: Blue
+// Keylights:
+//    Standard Layer: Configured Effect, blue downlights
+//    ALT Layer:      RED for special keys
+//    Cursor Layer:   GREEN for special keys
+//    Setting Layer:  PURPLE for special keys
+//
+// Note: The RGB variable stores in different byte order, so the order in the
+// set_color call is different!
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+  uint8_t layer = get_highest_layer(layer_state);
+  if (layer > 0) {
+    // Target color for key and downlight leds
+    RGB ledcol[] = { {RGB_BLACK}, {RGB_RED}, {RGB_PURPLE}, {RGB_GREEN} } ;
 
-// The LED numbers:
-//  11, 12, 21, 22, 31, 32,                 36+32, 36+31, 36+22, 36+21, 36+12, 36+11,
-//  10, 13, 20, 23, 30, 33,                 36+33, 36+30, 36+23, 36+20, 36+13, 36+10,
-//  9,  14, 19, 24, 29, 34,                 36+34, 36+29, 36+24, 36+19, 36+14, 36+9,
-//  8,  15, 18, 25, 28, 35, --,     --,     36+35, 36+28, 36+25, 36+18, 36+15, 36+8,
-//          7,  16, 17, 26, 27,     36+27,  36+26, 36+17, 36+16, 36+7
+    // Set the indicator LEDs
+    rgb_matrix_set_color(0, ledcol[layer].g>>2, ledcol[layer].r>>2, ledcol[layer].b>>2);
 
-
-// Default: Blue downlights, no indicators
-const rgblight_segment_t PROGMEM status_def[] = RGBLIGHT_LAYER_SEGMENTS(
-  {0, 1, HSV_BLACK}, 
-  {1, 6, HSV_BLUE },   
-  {36, 1, HSV_BLACK},  
-  {37, 6, HSV_BLUE}
-); 
-
-// Alt Functions: Red  downlights, indicators and keys
-const rgblight_segment_t PROGMEM status_alt[] = RGBLIGHT_LAYER_SEGMENTS(
-  {0, 1, HSV_RED}, 
-  {1, 6, HSV_RED },  
-  {36, 1, HSV_RED},  
-  {37, 6, HSV_RED},
-  {11, 2, HSV_RED },  // F1 F2
-  {21, 2, HSV_RED },  // F3 F4
-  {31, 2, HSV_RED },  // F4 F5
-  {14, 1, HSV_RED },  // A
-  {23, 1, HSV_RED },  // E
-  {36+10, 3, HSV_RED },  // F10 F11 F12
-  {36+21, 2, HSV_RED },  // F8 F9
-  {36+31, 2, HSV_RED },  // F6 F7
-  {36+20, 1, HSV_RED },  // O
-  {36+30, 1, HSV_RED },  // U
-  {36+28, 2, HSV_RED },  // J M
-  {36+34, 2, HSV_RED },  // H N
-  {36+26, 1, HSV_RED }   // PrtScr
-);  
-
-// Settings: Purple downlights and indicator
-const rgblight_segment_t PROGMEM status_set[] = RGBLIGHT_LAYER_SEGMENTS(  {0, 1, HSV_PURPLE}, {1, 6, HSV_PURPLE},  {36, 1, HSV_PURPLE},  {37, 6, HSV_PURPLE} ); 
-
-// Cursor Layer: Green downlights, indicator, keys
-const rgblight_segment_t PROGMEM status_crs[] = RGBLIGHT_LAYER_SEGMENTS(  {0, 1, HSV_GREEN}, {1, 6, HSV_GREEN},  
-  { 13, 2, HSV_GREEN },     // QA
-  { 19, 2, HSV_GREEN },     // SW
-  { 23, 2, HSV_GREEN },     // ED
-  { 33, 2, HSV_GREEN },     // TG
-  {36, 1,  HSV_GREEN},  {37, 6, HSV_GREEN}  );
-
-const rgblight_segment_t* const PROGMEM status_layers[] = RGBLIGHT_LAYERS_LIST(
-  status_def,
-  status_alt,
-  status_set,
-  status_crs
-);
-
-void keyboard_post_init_user(void) {
-  rgblight_layers = status_layers;
+    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+      for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+        uint8_t index = g_led_config.matrix_co[row][col];
+        if (index >= led_min && index < led_max) {
+          // Keys with special functions
+          if (index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
+            rgb_matrix_set_color(index, ledcol[layer].g, ledcol[layer].r, ledcol[layer].b);
+          }
+          // TODO: Set downlight LEDs
+        }
+      }
+    }
+  } else {
+    rgb_matrix_set_color(0,RGB_OFF);
+  }
+  return false;
 }
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(0, layer_state_cmp(state, _STD));
-  rgblight_set_layer_state(1, layer_state_cmp(state, _ALT));
-  rgblight_set_layer_state(2, layer_state_cmp(state, _SET));
-  rgblight_set_layer_state(3, layer_state_cmp(state, _CRS));
-  return state;
-}
-#endif // RGBLIGHT_ENABLE
+#endif // RGB_MATRIX_ENABLE
