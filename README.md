@@ -6,6 +6,7 @@ I use the same layout and features on both of them, at least if possible. The Ch
 
 List of features:
 
+- Colemak Layout
 - Alternative Layer with:
   - Umlauts, created with Linux Compose mechanism
   - F1 to F12, brackets and print screen

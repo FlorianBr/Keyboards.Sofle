@@ -7,8 +7,8 @@
  * are different! Therefore we need to specify what
  * side we want to compile here
  */
-#define IS_LEFT                                     // We want to build the LEFT side
-// #define IS_RIGHT                                    // We want to build the RIGHT side
+// #define IS_LEFT                                     // We want to build the LEFT side
+#define IS_RIGHT                                    // We want to build the RIGHT side
 #define MASTER_LEFT                                 // Left is the master
 
 /****** Split Configuration */
@@ -45,8 +45,10 @@
 #define RGB_DI_PIN D3                               // LED Data Pin
 #define RGBLED_NUM 72                               // 58 key LEDs, 12 drop lights, 2 indicators
 
+
 #ifdef RGB_MATRIX_ENABLE                            // *** RGB Matrix Config ***
 #define RGB_MATRIX_LED_COUNT RGBLED_NUM
+#define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 120           // Maximum brightness
 #define RGB_MATRIX_HUE_STEP 8                       // Step sizes for inc/dec
 #define RGB_MATRIX_SAT_STEP 8
@@ -85,17 +87,17 @@
 #define ENABLE_RGB_MATRIX_TYPING_HEATMAP     
 // #define ENABLE_RGB_MATRIX_DIGITAL_RAIN        
 #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE  
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS      
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE  
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS      
+// #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
 // #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS      
 // #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS 
 // #define ENABLE_RGB_MATRIX_SPLASH        
 // #define ENABLE_RGB_MATRIX_MULTISPLASH        
-#define ENABLE_RGB_MATRIX_SOLID_SPLASH       
-#define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
+// #define ENABLE_RGB_MATRIX_SOLID_SPLASH
+// #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif
 
 #ifdef OLED_ENABLE

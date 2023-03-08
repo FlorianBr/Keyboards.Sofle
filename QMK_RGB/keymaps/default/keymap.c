@@ -66,11 +66,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     TD(TD_GRV), KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,MO(_CRS),
+    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-   MO(_ALT),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+   MO(_ALT),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
                       KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS  
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -79,9 +79,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______,   ESIGN, _______, _______,                       _______,   UML_U, _______,   UML_O, _______,  KC_F12,
+    _______, _______, _______, _______, _______, _______,                       _______, _______,   UML_U, _______, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1, _______, _______, _______, _______,
+    _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,   UML_O, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
     _______, _______, _______, _______ ,_______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
@@ -404,7 +404,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 //
 // Note: The RGB variable stores in different byte order, so the order in the
 // set_color call is different!
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   uint8_t layer = get_highest_layer(layer_state);
   if (layer > 0) {
     // Target color for key and downlight leds
@@ -428,6 +428,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   } else {
     rgb_matrix_set_color(0,RGB_OFF);
   }
-  return false;
+  return;
 }
 #endif // RGB_MATRIX_ENABLE
