@@ -14,7 +14,7 @@ List of features:
   - Cursor keys on WASD
   - PageUp/Down, Home, End
 - Holding TAB switches to RGB Matrix configuration
-- Indicator LEDs to show current layer
+- Indicator LEDs to show current layer (not on choc)
 - On alternative layers: Highlight key with alt function
 - Left OLED: Current layer and modifiers
 - Right OLED: Neko-Cat animation depending on WPS
@@ -25,7 +25,6 @@ TODOs:
 - Separated control of downlights
 - ARASAKA-Logo on OLED on wake-up
 - WPM graph
-- Update Sofle Choc variant (currently outdated)
 
 ![Sofle](soflekeyboard.jpg)
 
@@ -48,8 +47,6 @@ Thanks to some messing around my left side has a MCU with dfu bootloader, my rig
 
 ### Sofle Choc v1
 
-Note: Currently outdated and needs some rework for current QMK version!
-
 - Keys: Kailh red choc
 - Keycaps: Pudding Black
 - OS: QMK
@@ -65,7 +62,7 @@ Currently work in progress/planning. Should replace my desktop keyboard, powered
 - Controller: 2x Nice!Nano
 - Displays: 2x Nice!View
 - Others: Pimoroni Trackball
-- OS: TBD
+- OS: ZMK
 
 ### Sofle Choc v2
 
