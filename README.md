@@ -23,7 +23,6 @@ List of features:
 
 TODOs:
 
-- Separated control of downlights
 - ARASAKA-Logo on OLED on wake-up
 - WPM graph
 

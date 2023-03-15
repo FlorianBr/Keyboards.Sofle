@@ -34,7 +34,8 @@ enum layers {
     _QWERTY,
     _ALT,
     _SET,
-    _CRS
+    _CRS,
+    NUM_LAYERS  // not a layer but used in the code. Must be last entry
 };
 
 /**************************************************** CUSTOM KEYCODES */
@@ -231,6 +232,8 @@ static uint32_t sleep_timer;
 #ifdef IS_LEFT
 static void print_left(void) {
 
+  // Note: Do not use snprintf, it needs too much flash
+
   // OLED Sleep Mode
   if (get_current_wpm() > 0) {
     oled_on();
@@ -424,29 +427,37 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 // Note: The RGB variable stores in different byte order, so the order in the
 // set_color call is different!
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+  // Target color for key and downlight leds (one for every layer)
+  RGB ledcol[NUM_LAYERS] = { {RGB_BLUE}, {RGB_CYAN}, {RGB_RED}, {RGB_PURPLE}, {RGB_GREEN} } ;
   uint8_t layer = get_highest_layer(layer_state);
+
+  // For special layers: Set the key LEDs, overwriting effects
   if (layer > _QWERTY) {
-    // Target color for key and downlight leds
-    RGB ledcol[] = { {RGB_BLACK}, {RGB_BLACK}, {RGB_RED}, {RGB_PURPLE}, {RGB_GREEN} } ;
-
-    // Set the indicator LEDs
-    rgb_matrix_set_color(0, ledcol[layer].g>>2, ledcol[layer].r>>2, ledcol[layer].b>>2);
-
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
       for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
         uint8_t index = g_led_config.matrix_co[row][col];
-        if (index >= led_min && index < led_max) {
-          // Keys with special functions
-          if (index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
+
+        // Valid LED on that position?
+        if ((index >= led_min) && (index < led_max) && (index != NO_LED)) {
+          // Highlight keys with special functions
+          if (keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
             rgb_matrix_set_color(index, ledcol[layer].g, ledcol[layer].r, ledcol[layer].b);
           }
-          // TODO: Set downlight LEDs
         }
       }
     }
-  } else {
-    rgb_matrix_set_color(0,RGB_OFF);
   }
+
+  // All layers: Underglow and Indicators (with reduced intensity)
+  for (uint8_t i = led_min; i < led_max; i++) {
+    if (g_led_config.flags[i] == LED_FLAG_UNDERGLOW) {
+      rgb_matrix_set_color(i, ledcol[layer].g, ledcol[layer].r, ledcol[layer].b);
+    }
+    if (g_led_config.flags[i] == LED_FLAG_INDICATOR) {
+      rgb_matrix_set_color(i, ledcol[layer].g>>4, ledcol[layer].r>>4, ledcol[layer].b>>4);
+    }
+  }
+
   return;
 }
 #endif // RGB_MATRIX_ENABLE
