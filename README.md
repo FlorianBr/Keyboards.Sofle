@@ -7,6 +7,7 @@ I use the same layout and features on both of them, at least if possible. The Ch
 List of features:
 
 - Colemak Layout
+- Alternative QWERTY Layer
 - Alternative Layer with:
   - Umlauts, created with Linux Compose mechanism
   - F1 to F12, brackets and print screen
@@ -37,7 +38,7 @@ TODOs:
 - Keys: Gazzew U4 RGB
 - Keycaps: Pudding Black
 - OS: QMK
- 
+
 Thanks to some messing around my left side has a MCU with dfu bootloader, my right side with caterina:
 
 - make sofle_rgb:default:avrdude-split-right
