@@ -57,7 +57,7 @@ enum {
     TD_GRV,
 };
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
   [TD_GRV]   = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),     // ESC, GRV on double tap
 };
 
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
    MO(_ALT),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
                       KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     MO(_ALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
                       KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -426,7 +426,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 //
 // Note: The RGB variable stores in different byte order, so the order in the
 // set_color call is different!
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   // Target color for key and downlight leds (one for every layer)
   RGB ledcol[NUM_LAYERS] = { {RGB_BLUE}, {RGB_CYAN}, {RGB_RED}, {RGB_PURPLE}, {RGB_GREEN} } ;
   uint8_t layer = get_highest_layer(layer_state);
@@ -458,6 +458,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
   }
 
-  return;
+  return false;
 }
 #endif // RGB_MATRIX_ENABLE

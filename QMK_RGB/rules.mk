@@ -8,7 +8,7 @@ SPLIT_KEYBOARD = yes			# Its a split keyboard
 # Sofles Features
 ENCODER_ENABLE = yes			# Rotary encoders
 OLED_ENABLE = yes				# OLED support
-OLED_DRIVER = SSD1306			# OLED Driver
+# OLED_DRIVER = SSD1306			# OLED Driver
 
 # Optional Features
 MOUSEKEY_ENABLE = no			# mousekeys (Warning: Needs lots of flash)
@@ -17,5 +17,5 @@ CONSOLE_ENABLE = no				# No debug console
 TAP_DANCE_ENABLE = yes			# Tap dancing
 WPM_ENABLE = yes				# WPM calculator
 RGB_MATRIX_ENABLE = yes			# RGB Matrix LEDs
-RGB_MATRIX_DRIVER = WS2812
+RGB_MATRIX_DRIVER = ws2812		# The Matrix driver
 CAPS_WORD_ENABLE = yes			# Enable build in caps-word

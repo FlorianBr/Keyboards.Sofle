@@ -1,7 +1,5 @@
 #pragma once
 
-#include "config_common.h"
-
 /****** Main Build Configuration */
 /* To save flash the build for left and right sides
  * are different! Therefore we need to specify what
@@ -9,6 +7,7 @@
  */
 // #define IS_LEFT                                     // We want to build the LEFT side
 #define IS_RIGHT                                    // We want to build the RIGHT side
+
 #define MASTER_LEFT                                 // Left is the master
 
 /****** Split Configuration */
@@ -42,7 +41,7 @@
 #define DIODE_DIRECTION COL2ROW
 
 /****** Hardware: LEDs */
-#define RGB_DI_PIN D3                               // LED Data Pin
+#define WS2812_DI_PIN D3                            // LED Data Pin
 #define RGBLED_NUM 72                               // 58 key LEDs, 12 drop lights, 2 indicators
 
 
@@ -58,7 +57,7 @@
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS              // Enable framebuffer effects
 #define RGB_MATRIX_SPLIT {36,36}                    // 36 LEDs on each side
 #define SPLIT_TRANSPORT_MIRROR                      // Mirror master to slave
-#define RGB_DISABLE_WHEN_USB_SUSPENDED              // Turn off when suspended
+#define RGB_MATRIX_SLEEP                            // Turn off when suspended
 
 // Enabled effects
 #define ENABLE_RGB_MATRIX_ALPHAS_MODS
