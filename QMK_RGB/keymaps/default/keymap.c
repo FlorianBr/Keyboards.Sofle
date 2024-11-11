@@ -18,6 +18,7 @@
  * Keymap for the Sofle RGB, based on the design made by Dane Evans
  */
 
+
 #include <stdio.h>
 #include "config.h"
 
@@ -138,7 +139,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case UML_A:
         if (record->event.pressed) {
-            tap_code(KC_CAPS);
+            tap_code(KC_PAUSE);
             tap_code(KC_A);
             register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
@@ -148,7 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case UML_U:
         if (record->event.pressed) {
-            tap_code(KC_CAPS);
+            tap_code(KC_PAUSE);
             tap_code(KC_U);
             register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
@@ -158,7 +159,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case UML_O:
         if (record->event.pressed) {
-            tap_code(KC_CAPS);
+            tap_code(KC_PAUSE);
             tap_code(KC_O);
             register_code(KC_RIGHT_SHIFT);
             tap_code(KC_QUOTE);
@@ -168,7 +169,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case ESIGN:
         if (record->event.pressed) {
-            tap_code(KC_CAPS);
+            tap_code(KC_PAUSE);
             tap_code(KC_C);
             tap_code(KC_EQUAL);
         } else {

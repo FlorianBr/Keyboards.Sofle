@@ -27,18 +27,8 @@
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD              // Turn on on left+right shift
 
 /****** Hardware: Encoder */
-#define ENCODERS_PAD_A { F5 }
-#define ENCODERS_PAD_B { F4 }
-#define ENCODERS_PAD_A_RIGHT { F4 }
-#define ENCODERS_PAD_B_RIGHT { F5 }
 #define ENCODER_RESOLUTION 2
-
-/****** Hardware: Key Matrix */
-#define MATRIX_ROWS 10
-#define MATRIX_COLS 6
-#define MATRIX_ROW_PINS { C6, D7, E6, B4, B5 }
-#define MATRIX_COL_PINS { F6, F7, B1, B3, B2, B6 }
-#define DIODE_DIRECTION COL2ROW
+#define ENCODER_DIRECTION_FLIP
 
 /****** Hardware: LEDs */
 #define WS2812_DI_PIN D3                            // LED Data Pin

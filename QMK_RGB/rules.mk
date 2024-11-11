@@ -1,14 +1,9 @@
-MCU = atmega32u4				# MCU name
-# BOOTLOADER = atmel-dfu		# Bootloader selection (left)
-BOOTLOADER = caterina			# Bootloader selection (right)
-
 LTO_ENABLE = yes				# Link time optimisation
 SPLIT_KEYBOARD = yes			# Its a split keyboard
 
 # Sofles Features
 ENCODER_ENABLE = yes			# Rotary encoders
 OLED_ENABLE = yes				# OLED support
-# OLED_DRIVER = SSD1306			# OLED Driver
 
 # Optional Features
 MOUSEKEY_ENABLE = no			# mousekeys (Warning: Needs lots of flash)
