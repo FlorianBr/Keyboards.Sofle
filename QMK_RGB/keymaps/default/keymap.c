@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-   MO(_ALT),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
+    LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     LT(_SET,KC_TAB),KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    MO(_ALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+    LT(_ALT,KC_PAUSE),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -139,39 +139,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case UML_A:
         if (record->event.pressed) {
-            tap_code(KC_PAUSE);
-            tap_code(KC_A);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
+          tap_code(KC_PAUSE);
+          tap_code(KC_A);
+          register_code(KC_RIGHT_SHIFT);
+          tap_code(KC_QUOTE);
+          unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
     case UML_U:
         if (record->event.pressed) {
-            tap_code(KC_PAUSE);
-            tap_code(KC_U);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
+          tap_code(KC_PAUSE);
+          tap_code(KC_U);
+          register_code(KC_RIGHT_SHIFT);
+          tap_code(KC_QUOTE);
+          unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
     case UML_O:
         if (record->event.pressed) {
-            tap_code(KC_PAUSE);
-            tap_code(KC_O);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
+          tap_code(KC_PAUSE);
+          tap_code(KC_O);
+          register_code(KC_RIGHT_SHIFT);
+          tap_code(KC_QUOTE);
+          unregister_code(KC_RIGHT_SHIFT);
         } else {
         }
         break;
     case ESIGN:
         if (record->event.pressed) {
-            tap_code(KC_PAUSE);
-            tap_code(KC_C);
-            tap_code(KC_EQUAL);
+          tap_code(KC_PAUSE);
+          tap_code(KC_C);
+          tap_code(KC_EQUAL);
+
         } else {
         }
         break;

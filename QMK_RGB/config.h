@@ -28,7 +28,6 @@
 
 /****** Hardware: Encoder */
 #define ENCODER_RESOLUTION 2
-#define ENCODER_DIRECTION_FLIP
 
 /****** Hardware: LEDs */
 #define WS2812_DI_PIN D3                            // LED Data Pin
