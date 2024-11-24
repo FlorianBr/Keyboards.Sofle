@@ -21,6 +21,8 @@
 
 #include <stdio.h>
 #include "config.h"
+#include "keymap_us_international.h"
+#include "sendstring_us_international.h"
 
 #include QMK_KEYBOARD_H
 
@@ -42,14 +44,11 @@ enum layers {
 /**************************************************** CUSTOM KEYCODES */
 
 enum custom_keycodes {
-    UML_A = SAFE_RANGE,
-    UML_U,
-    UML_O,
-    BRK_L1,
-    BRK_R1,
-    BRK_L2,
-    BRK_R2,
-    ESIGN
+  ESIGN = SAFE_RANGE,
+  BRK_L1,
+  BRK_R1,
+  BRK_L2,
+  BRK_R2
 };
 
 /**************************************************** TAP DANCES */
@@ -71,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
+    LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -84,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     LT(_SET,KC_TAB),KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_ALT,KC_PAUSE),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+    LT(_ALT,KC_PAUSE),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                 KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -95,11 +94,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,                       _______, _______,   UML_U, _______, _______,  KC_F12,
+    _______, _______, _______, _______, _______, _______,                       _______, _______, US_UDIA, _______, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,   UML_O, _______,
+    _______, US_ADIA, _______,   US_SS, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______, US_ODIA, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______ ,_______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
                       _______, _______, _______, _______,  _______,    _______, KC_PSCR, _______, _______, _______
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -137,36 +136,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /**************************************************** KEYCODE PROCESSING */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case UML_A:
-        if (record->event.pressed) {
-          tap_code(KC_PAUSE);
-          tap_code(KC_A);
-          register_code(KC_RIGHT_SHIFT);
-          tap_code(KC_QUOTE);
-          unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
-    case UML_U:
-        if (record->event.pressed) {
-          tap_code(KC_PAUSE);
-          tap_code(KC_U);
-          register_code(KC_RIGHT_SHIFT);
-          tap_code(KC_QUOTE);
-          unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
-    case UML_O:
-        if (record->event.pressed) {
-          tap_code(KC_PAUSE);
-          tap_code(KC_O);
-          register_code(KC_RIGHT_SHIFT);
-          tap_code(KC_QUOTE);
-          unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
     case ESIGN:
         if (record->event.pressed) {
           tap_code(KC_PAUSE);
