@@ -14,3 +14,4 @@ WPM_ENABLE = yes				# WPM calculator
 RGB_MATRIX_ENABLE = yes			# RGB Matrix LEDs
 RGB_MATRIX_DRIVER = ws2812		# The Matrix driver
 CAPS_WORD_ENABLE = yes			# Enable build in caps-word
+UNICODEMAP_ENABLE = yes			# Unicode support

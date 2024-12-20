@@ -21,8 +21,7 @@
 
 #include <stdio.h>
 #include "config.h"
-#include "keymap_us_international.h"
-#include "sendstring_us_international.h"
+
 
 #include QMK_KEYBOARD_H
 
@@ -41,7 +40,7 @@ enum layers {
     NUM_LAYERS  // not a layer but used in the code. Must be last entry
 };
 
-/**************************************************** CUSTOM KEYCODES */
+/**************************************************** CUSTOM AND UNICODE KEYCODES */
 
 enum custom_keycodes {
   ESIGN = SAFE_RANGE,
@@ -50,6 +49,33 @@ enum custom_keycodes {
   BRK_L2,
   BRK_R2
 };
+
+enum unicode_names {
+  U_UE_LOWER,
+  U_UE_UPPER,
+  U_AE_LOWER,
+  U_AE_UPPER,
+  U_OE_LOWER,
+  U_OE_UPPER,
+  U_SS_LOWER,
+  U_SS_UPPER,
+};
+
+const uint32_t unicode_map[] PROGMEM = {
+  [U_UE_LOWER] = 0x00FC,
+  [U_UE_UPPER] = 0x00DC,
+  [U_AE_LOWER] = 0x00E4,
+  [U_AE_UPPER] = 0x00C4,
+  [U_OE_LOWER] = 0x00F6,
+  [U_OE_UPPER] = 0x00D6,
+  [U_SS_LOWER] = 0x00DF,
+  [U_SS_UPPER] = 0x1E9E
+};
+
+#define U_UE UP(U_UE_LOWER, U_UE_UPPER)
+#define U_AE UP(U_AE_LOWER, U_AE_UPPER)
+#define U_OE UP(U_OE_LOWER, U_OE_UPPER)
+#define U_SS UP(U_SS_LOWER, U_SS_UPPER)
 
 /**************************************************** TAP DANCES */
 
@@ -94,9 +120,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,                       _______, _______, US_UDIA, _______, _______,  KC_F12,
+    _______, _______, _______, _______, _______, _______,                       _______, _______,    U_UE, _______, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, US_ADIA, _______,   US_SS, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______, US_ODIA, _______,
+    _______,    U_AE, _______,    U_SS, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,    U_OE, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
     _______, _______, _______, _______, _______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
