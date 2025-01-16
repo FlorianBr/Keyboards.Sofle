@@ -6,10 +6,9 @@ I use the same layout and features on both of them, at least if possible. The Ch
 
 List of features:
 
-- Colemak Layout
-- Alternative QWERTY Layer
+- QWERTY Layer
 - Alternative Layer with:
-  - Umlauts, created with Linux Compose mechanism
+  - Umlauts, created with Linux Unicode mechanism
   - F1 to F12, brackets and print screen
 - Alternative Layer with:
   - Cursor keys on WASD
