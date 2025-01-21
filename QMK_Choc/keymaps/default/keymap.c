@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2022 Florian Brandner
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  *************************************************
  * Keymap for the Sofle RGB, based on the design made by Dane Evans
  */
@@ -29,61 +29,83 @@
 #define SPRITE_DURATION     500           // Length in ms for a sprite
 #define SPRITE_SIZE         128           // Size of one sprite in byte
 
+#ifndef IS_LEFT
+#ifndef IS_RIGHT
+#error No side defined!
+#endif
+#endif
+
+
 enum layers {
     _STD = 0,
     _ALT = 1,
     _SET = 2,
     _CRS = 3,
+    NUM_LAYERS  // not a layer but used in the code. Must be last entry
 };
 
 /**************************************************** CUSTOM KEYCODES */
 
 enum custom_keycodes {
-    UML_A = SAFE_RANGE,
-    UML_U,
-    UML_O,
-    BRK_L1,
-    BRK_R1,
-    BRK_L2,
-    BRK_R2,
-    ESIGN
+  ESIGN = SAFE_RANGE,
+  BRK_L1,
+  BRK_R1,
+  BRK_L2,
+  BRK_R2
 };
 
-/**************************************************** TAP DANCES */
-
-enum {
-    TD_GRV,
+enum unicode_names {
+  U_UE_LOWER,
+  U_UE_UPPER,
+  U_AE_LOWER,
+  U_AE_UPPER,
+  U_OE_LOWER,
+  U_OE_UPPER,
+  U_SS_LOWER,
+  U_SS_UPPER,
 };
 
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_GRV]   = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),     // ESC, GRV on double tap
+const uint32_t unicode_map[] PROGMEM = {
+  [U_UE_LOWER] = 0x00FC,
+  [U_UE_UPPER] = 0x00DC,
+  [U_AE_LOWER] = 0x00E4,
+  [U_AE_UPPER] = 0x00C4,
+  [U_OE_LOWER] = 0x00F6,
+  [U_OE_UPPER] = 0x00D6,
+  [U_SS_LOWER] = 0x00DF,
+  [U_SS_UPPER] = 0x1E9E
 };
+
+#define U_UE UP(U_UE_LOWER, U_UE_UPPER)
+#define U_AE UP(U_AE_LOWER, U_AE_UPPER)
+#define U_OE UP(U_OE_LOWER, U_OE_UPPER)
+#define U_SS UP(U_SS_LOWER, U_SS_UPPER)
 
 /**************************************************** THE LAYERS */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_STD] = LAYOUT(
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
-    TD(TD_GRV), KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+     KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
+LT(_SET,KC_TAB),KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-   MO(_ALT),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
+LT(_ALT,KC_PAUSE),KC_A,  KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_MUTE,      KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-                      KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS  
+                      KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
 ),
   [_ALT] = LAYOUT(
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,                       _______, _______,   UML_U, _______, _______,  KC_F12,
+    _______, _______, _______, _______, _______, _______,                       _______, _______,    U_UE, _______, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,   UML_O, _______,
+    _______,    U_AE, _______,    U_SS, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,    U_OE, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______ ,_______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
                       _______, _______, _______, _______,  _______,    _______, KC_PSCR, _______, _______, _______
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -114,43 +136,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
 ),
-}; 	
+};
 
 // clang-format on
 
 /**************************************************** KEYCODE PROCESSING */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case UML_A:
-        if (record->event.pressed) {
-            tap_code(KC_CAPS);
-            tap_code(KC_A);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
-    case UML_U:
-        if (record->event.pressed) {
-            tap_code(KC_CAPS);
-            tap_code(KC_U);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
-    case UML_O:
-        if (record->event.pressed) {
-            tap_code(KC_CAPS);
-            tap_code(KC_O);
-            register_code(KC_RIGHT_SHIFT);
-            tap_code(KC_QUOTE);
-            unregister_code(KC_RIGHT_SHIFT);
-        } else {
-        }
-        break;
     case ESIGN:
         if (record->event.pressed) {
             tap_code(KC_CAPS);
@@ -266,7 +258,7 @@ static void print_left(void) {
     if (get_mods() & MOD_MASK_CTRL) {   oled_write_char('C', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_GUI) {    oled_write_char('G', true);    } else { oled_write_char(' ', false); }
     if (get_mods() & MOD_MASK_ALT) {    oled_write_char('A', true);    } else { oled_write_char(' ', false); }
-    if (is_caps_word_on()) {            oled_write_char('W', true);    } else { oled_write_char(' ', false); } 
+    if (is_caps_word_on()) {            oled_write_char('W', true);    } else { oled_write_char(' ', false); }
   } // is_oled_on
 } // print_left()
 
@@ -278,10 +270,10 @@ static uint8_t current_frame = 0;     // current frame
 static bool isawake = false;          // Awake anim?
 
 static void render_neko(int PosX, int PosY) {
-  static const char PROGMEM awake[SPRITE_SIZE] = { 
+  static const char PROGMEM awake[SPRITE_SIZE] = {
     0x01, 0x40, 0x40, 0x80, 0x80, 0x04, 0x08, 0x10, 0x20, 0x00, 0xc0, 0x30, 0x08, 0x10, 0x60, 0x80, 0x00, 0x80, 0x60, 0x10, 0x08, 0x30, 0xc0, 0x00, 0x10, 0x08, 0x04, 0x80, 0x80, 0x40, 0x40, 0x00, 0x08, 0x08, 0x08, 0x08, 0x00, 0x01, 0x01, 0x00, 0x00, 0x7f, 0x80, 0x40, 0x40, 0x5c, 0x00, 0x01, 0x41, 0x01, 0x00, 0x5c, 0x40, 0x40, 0x80, 0x7f, 0x00, 0x01, 0x01, 0x08, 0x08, 0x08, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x40, 0x80, 0xe1, 0x12, 0x0a, 0x06, 0x00, 0x80, 0x00, 0x06, 0x0a, 0x12, 0xe1, 0x90, 0x48, 0x64, 0x92, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x1f, 0x14, 0x14, 0x10, 0x10, 0x11, 0x1f, 0x10, 0x10, 0x18, 0x0f, 0x18, 0x10, 0x10, 0x1f, 0x11, 0x10, 0x10, 0x14, 0x14, 0x1f, 0x18, 0x00, 0x00, 0x00, 0x00
   };
-  static const char PROGMEM kaki[][SPRITE_SIZE] = { 
+  static const char PROGMEM kaki[][SPRITE_SIZE] = {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x1a, 0x22, 0xc2, 0x04, 0x04, 0x04, 0x07, 0x00, 0xc0, 0x20, 0x10, 0x80, 0x80, 0x01, 0x01, 0x02, 0xfc, 0xfe, 0x02, 0x3c, 0x20, 0x40, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x0d, 0x8d, 0x55, 0x50, 0x94, 0xf0, 0x10, 0x09, 0x08, 0x00, 0x80, 0x00, 0x06, 0x09, 0x1b, 0xee, 0x00, 0x00, 0x00, 0x00, 0x81, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x1f, 0x14, 0x14, 0x10, 0x10, 0x11, 0x1f, 0x10, 0x10, 0x18, 0x0f, 0x18, 0x10, 0x10, 0x1f, 0x19, 0x18, 0x1c, 0x14, 0x16, 0x15, 0x14, 0x14, 0x14, 0x14, 0x08,  },
     { 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x10, 0x20, 0x40, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0xf0, 0x00, 0x01, 0x02, 0x04, 0x04, 0x03, 0x80, 0x40, 0x40, 0x20, 0x00, 0x01, 0x02, 0x8c, 0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x0d, 0x8d, 0x55, 0x50, 0x94, 0xf0, 0x10, 0x0a, 0x0e, 0x1d, 0x95, 0x24, 0x24, 0x27, 0x13, 0xe1, 0x01, 0x01, 0x01, 0x01, 0x02, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x1f, 0x14, 0x14, 0x10, 0x10, 0x11, 0x1f, 0x10, 0x10, 0x18, 0x0f, 0x18, 0x10, 0x10, 0x1f, 0x19, 0x18, 0x1c, 0x14, 0x14, 0x17, 0x14, 0x14, 0x14, 0x14, 0x08 }
   };
@@ -303,7 +295,7 @@ static void render_neko(int PosX, int PosY) {
     anim_timer = timer_read32();
     current_frame = (current_frame + 1) % 2;  // toggle frame
 
-    oled_set_cursor(PosX, PosY);   
+    oled_set_cursor(PosX, PosY);
 
     // State of caps word is not synced, wont work on right side
     // if (caps_word_get()) {
@@ -404,7 +396,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 //
 // Note: The RGB variable stores in different byte order, so the order in the
 // set_color call is different!
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   uint8_t layer = get_highest_layer(layer_state);
   if (layer > 0) {
     // Target color for key and downlight leds
@@ -427,6 +419,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
   } else {
     rgb_matrix_set_color(0,RGB_OFF);
   }
-  return;
+  return false;
 }
 #endif // RGB_MATRIX_ENABLE
