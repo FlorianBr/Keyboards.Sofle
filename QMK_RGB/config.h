@@ -11,7 +11,7 @@
 #define MASTER_LEFT                                 // Left is the master
 
 /****** Unicode Input Mode */
-#define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
+// #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
 /****** Split Configuration */
 #define SPLIT_WPM_ENABLE                            // Sync WPM state between sides (for NEKO)
@@ -22,9 +22,9 @@
 #ifdef TAPPING_TERM
 #undef TAPPING_TERM
 #endif
-#define TAPPING_TERM 150                            // Redefine tapping time to 150ms
-#define TAPPING_TOGGLE 2                            // Number of taps for tap toggle (Default: 5)
-#define TAP_CODE_DELAY 10                           // Delay in between register and unregister_code
+// #define TAPPING_TERM 150                            // Redefine tapping time to 150ms
+// #define TAPPING_TOGGLE 2                            // Number of taps for tap toggle (Default: 5)
+// #define TAP_CODE_DELAY 100                           // Delay in between register and unregister_code
 
 /****** Features: Caps Word */
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD              // Turn on on left+right shift

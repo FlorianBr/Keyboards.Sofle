@@ -31,6 +31,13 @@
 #define SPRITE_DURATION     500           // Length in ms for a sprite
 #define SPRITE_SIZE         128           // Size of one sprite in byte
 
+#ifndef IS_LEFT
+#ifndef IS_RIGHT
+#error No side defined!
+#endif
+#endif
+
+
 enum layers {
     _STD = 0,
     _ALT,
@@ -39,53 +46,29 @@ enum layers {
     NUM_LAYERS  // not a layer but used in the code. Must be last entry
 };
 
-/**************************************************** CUSTOM AND UNICODE KEYCODES */
+ /**************************************************** CUSTOM KEYCODES */
 
 enum custom_keycodes {
-  ESIGN = SAFE_RANGE,
+     UML_A = SAFE_RANGE,
+     UML_U,
+     UML_O,
   BRK_L1,
   BRK_R1,
   BRK_L2,
-  BRK_R2
-};
-
-enum unicode_names {
-  U_UE_LOWER,
-  U_UE_UPPER,
-  U_AE_LOWER,
-  U_AE_UPPER,
-  U_OE_LOWER,
-  U_OE_UPPER,
-  U_SS_LOWER,
-  U_SS_UPPER,
-};
-
-const uint32_t unicode_map[] PROGMEM = {
-  [U_UE_LOWER] = 0x00FC,
-  [U_UE_UPPER] = 0x00DC,
-  [U_AE_LOWER] = 0x00E4,
-  [U_AE_UPPER] = 0x00C4,
-  [U_OE_LOWER] = 0x00F6,
-  [U_OE_UPPER] = 0x00D6,
-  [U_SS_LOWER] = 0x00DF,
-  [U_SS_UPPER] = 0x1E9E
-};
-
-#define U_UE UP(U_UE_LOWER, U_UE_UPPER)
-#define U_AE UP(U_AE_LOWER, U_AE_UPPER)
-#define U_OE UP(U_OE_LOWER, U_OE_UPPER)
-#define U_SS UP(U_SS_LOWER, U_SS_UPPER)
+     BRK_R2,
+     ESIGN
+ };
 
 /**************************************************** THE LAYERS */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_STD] = LAYOUT(
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
-     KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+     KC_ESC,     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
     LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
+     LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
      KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
@@ -96,11 +79,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
     KC_GRV,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,                       _______, _______,    U_UE, _______, _______,  KC_F12,
+     _______, _______, _______, _______, _______, _______,                       _______, _______,   UML_U, _______, _______,  KC_F12,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    _______,    U_AE, _______,    U_SS, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,    U_OE, _______,
+     _______,   UML_A, _______, _______, _______, _______,                        BRK_L1 , BRK_R1,   ESIGN, _______,   UML_O, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
+     _______, _______, _______, _______ ,_______, _______,  _______,    _______,  BRK_L2,  BRK_R2, _______, _______, _______, _______,
   //|------+--------+--------+--------+--------+--------|  =====  |   |  ===  |--------+--------+--------+--------+--------+--------|
                       _______, _______, _______, _______,  _______,    _______, KC_PSCR, _______, _______, _______
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
@@ -138,7 +121,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /**************************************************** KEYCODE PROCESSING */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case ESIGN:
+     case UML_A:
+        if (record->event.pressed) {
+          tap_code(KC_PAUSE);
+          tap_code(KC_A);
+          register_code(KC_RIGHT_SHIFT);
+          tap_code(KC_QUOTE);
+          unregister_code(KC_RIGHT_SHIFT);
+        } else {
+        }
+        break;
+     case UML_U:
+         if (record->event.pressed) {
+           tap_code(KC_PAUSE);
+           tap_code(KC_U);
+           register_code(KC_RIGHT_SHIFT);
+           tap_code(KC_QUOTE);
+           unregister_code(KC_RIGHT_SHIFT);
+         } else {
+         }
+         break;
+     case UML_O:
+         if (record->event.pressed) {
+           tap_code(KC_PAUSE);
+           tap_code(KC_O);
+           register_code(KC_RIGHT_SHIFT);
+           tap_code(KC_QUOTE);
+           unregister_code(KC_RIGHT_SHIFT);
+         } else {
+         }
+         break;
+     case ESIGN:
         if (record->event.pressed) {
           tap_code(KC_PAUSE);
           tap_code(KC_C);
@@ -389,8 +402,8 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 // Keylights:
 //    Standard Layer: Configured Effect, blue downlights
 //    ALT Layer:      RED for special keys
-//    Setting Layer:  PURPLE for special keys
 //    Cursor Layer:   GREEN for special keys
+ //    Setting Layer:  PURPLE for special keys
 //
 // Note: The RGB variable stores in different byte order, so the order in the
 // set_color call is different!
