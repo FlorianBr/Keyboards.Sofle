@@ -1,20 +1,3 @@
-/*
- * Copyright 2022 Florian Brandner
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #pragma once
 
 /****** Main Build Configuration */
@@ -22,23 +5,26 @@
  * are different! Therefore we need to specify what
  * side we want to compile here
  */
-
 // #define IS_LEFT                                     // We want to build the LEFT side
 #define IS_RIGHT                                    // We want to build the RIGHT side
+
 #define MASTER_LEFT                                 // Left is the master
+
+/****** Unicode Input Mode */
+// #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
 /****** Split Configuration */
 #define SPLIT_WPM_ENABLE                            // Sync WPM state between sides (for NEKO)
-// #define SOFT_SERIAL_PIN D2                          // Serial connection
+#define SOFT_SERIAL_PIN D2                          // Serial connection
 #define SPLIT_LAYER_STATE_ENABLE                    // For layer-dependend key LEDs
 
 /****** Features: Tapping */
 #ifdef TAPPING_TERM
 #undef TAPPING_TERM
 #endif
-#define TAPPING_TERM 150                            // Redefine tapping time to 150ms
-#define TAPPING_TOGGLE 2                            // Number of taps for tap toggle (Default: 5)
-#define TAP_CODE_DELAY 10                           // Delay in between register and unregister_code
+// #define TAPPING_TERM 150                            // Redefine tapping time to 150ms
+// #define TAPPING_TOGGLE 2                            // Number of taps for tap toggle (Default: 5)
+// #define TAP_CODE_DELAY 100                           // Delay in between register and unregister_code
 
 /****** Features: Caps Word */
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD              // Turn on on left+right shift
@@ -47,7 +33,7 @@
 #define ENCODER_RESOLUTION 2
 
 /****** Hardware: LEDs */
-#define WS2912_DI_PIN D3                            // LED Data Pin
+#define WS2812_DI_PIN D3                            // LED Data Pin
 #define RGBLED_NUM 58                               // 58 key LEDs, no drop lights, no indicators
 
 
@@ -61,13 +47,13 @@
 #define RGB_MATRIX_SPD_STEP 10
 #define RGB_MATRIX_KEYPRESSES                       // Reacts to keypresses
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS              // Enable framebuffer effects
+// #define RGB_MATRIX_SPLIT {36,36}                    // 36 LEDs on each side
 #define SPLIT_TRANSPORT_MIRROR                      // Mirror master to slave
 #define RGB_MATRIX_SLEEP                            // Turn off when suspended
 
 // Enabled effects
 #define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 #define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-
 #endif
 
 #ifdef OLED_ENABLE
