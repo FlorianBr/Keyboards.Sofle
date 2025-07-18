@@ -1,5 +1,16 @@
 {
     "keyboard_name": "Sofle",
+    "features": {
+        "bootmagic": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "encoder": true,
+        "oled": true,
+        "wpm": true,
+        "rgb_matrix": true,
+        "caps_word": true
+    },
     "build": {
         "lto": true
     },
@@ -26,10 +37,7 @@
     },
     "rgblight": {
         "led_count": 72,
-        "split_count": [
-            36,
-            36
-        ],
+        "split_count": [36, 36],
         "sleep": true
     },
     "rgb_matrix": {

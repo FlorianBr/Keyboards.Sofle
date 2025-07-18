@@ -39,24 +39,24 @@
 
 
 enum layers {
-    _STD = 0,
-    _ALT,
-    _SET,
-    _CRS,
-    NUM_LAYERS  // not a layer but used in the code. Must be last entry
+  _STD = 0,
+  _ALT,
+  _SET,
+  _CRS,
+  NUM_LAYERS  // not a layer but used in the code. Must be last entry
 };
 
  /**************************************************** CUSTOM KEYCODES */
 
 enum custom_keycodes {
-     UML_A = SAFE_RANGE,
-     UML_U,
-     UML_O,
+  UML_A = SAFE_RANGE,
+  UML_U,
+  UML_O,
   BRK_L1,
   BRK_R1,
   BRK_L2,
-     BRK_R2,
-     ESIGN
+  BRK_R2,
+  ESIGN
  };
 
 /**************************************************** THE LAYERS */
@@ -66,11 +66,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------.                     ,-----------------------------------------------------.
      KC_ESC,     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_G,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
+    LT(_SET,KC_TAB),KC_Q,KC_W,    KC_F,    KC_P,    KC_B,                          KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,MO(_CRS),
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-     LT(_ALT,KC_PAUSE),    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                          KC_H,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
+     LT(_ALT,KC_PAUSE),KC_A,KC_R, KC_S,    KC_T,    KC_G,                          KC_M,    KC_N,    KC_E,    KC_I,    KC_O, KC_QUOT,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
-     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,    _______,    KC_K,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+     KC_DEL,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,  KC_MUTE,    _______,    KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
   //|------+--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------+--------|
                       KC_LCTL, KC_LGUI, KC_LALT, KC_LSFT,   KC_SPC,     KC_ENT, KC_RSFT, KC_RALT,  KC_EQL, KC_MINS
   //                \--------+--------+--------+--------+---------|   |-------+--------+--------+--------+-------/
