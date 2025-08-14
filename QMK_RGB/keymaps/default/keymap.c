@@ -57,7 +57,7 @@ enum custom_keycodes {
   BRK_L2,
   BRK_R2,
   ESIGN
- };
+};
 
 /**************************************************** THE LAYERS */
 

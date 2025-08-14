@@ -10,12 +10,8 @@
 
 #define MASTER_LEFT                                 // Left is the master
 
-/****** Unicode Input Mode */
-// #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
-
 /****** Split Configuration */
 #define SPLIT_WPM_ENABLE                            // Sync WPM state between sides (for NEKO)
-#define SOFT_SERIAL_PIN D2                          // Serial connection
 #define SPLIT_LAYER_STATE_ENABLE                    // For layer-dependend key LEDs
 
 /****** Features: Tapping */
@@ -33,7 +29,6 @@
 #define ENCODER_RESOLUTION 2
 
 /****** Hardware: LEDs */
-#define WS2812_DI_PIN D3                            // LED Data Pin
 #define RGBLED_NUM 58                               // 58 key LEDs, no drop lights, no indicators
 
 

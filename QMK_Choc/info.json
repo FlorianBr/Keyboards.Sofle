@@ -20,7 +20,10 @@
         "oled": true,
         "rgb_matrix": true,
         "extrakey": true,
-        "mousekey": false
+        "mousekey": false,
+        "nkro": true,
+        "wpm": true,
+        "caps_word": true
     },
     "development_board": "promicro",
     "rgb_matrix": {
